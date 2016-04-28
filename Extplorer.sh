@@ -17,7 +17,7 @@ Confirm(){
                 ;;
   esac  
 }
-/bin/echo "This script will install Extplorer ver. $Extplorer_Version"
+echo -e "This script will install Extplorer ver. $Extplorer_Version"
 Confirm
 echo -e "Creating installation directory..."
 mkdir $Install_Dir
@@ -25,3 +25,25 @@ chown -R www:www $Install_Dir
 echo -e "Downloading Extplorer..."
 fetch -o "Extplorer.zip" $Download_File
 tar xf "Extplorer.zip" -C $Install_Dir
+echo -e "Extplorer downloaded and extracted..."
+echo -e "Now installing required packages..."
+echo -e "Installing php56 (1/10)..."
+pkg install -y php56
+echo -e "Installing php56-extensions (2/10)..."
+pkg install -y php56-extensions
+echo -e "Installing php56-xmlrpc (3/10)..."
+pkg install -y php56-xmlrpc
+echo -e "Installing php56-gettext (4/10)..."
+pkg install -y php56-gettext
+echo -e "Installing php56-mcrypt (5/10)..."
+pkg install -y php56-mcrypt
+echo -e "Installing php56-mbstring (6/10)..."
+pkg install -y php56-mbstring
+echo -e "Installing php56-zip (7/10)..."
+pkg install -y php56-zip
+echo -e "Installing php56-gd (8/10)..."
+pkg install -y php56-gd
+echo -e "Installing php56-session (9/10)..."
+pkg install -y php56-session
+echo -e "Installing php56-zlib (10/10)..."
+pkg install -y php56-zlib
