@@ -3,6 +3,8 @@
 Download_File="https://extplorer.net/attachments/download/68/eXtplorer_2.1.9.zip"
 Extplorer_Version="2.1.9"
 Install_Dir="/usr/local/www/Extplorer"
+Extplorer_Add="https://raw.githubusercontent.com/mrwinch/Extplorer_Nas4Free/master/ExtPlorer.php"
+Extplorer_Cfg="https://raw.githubusercontent.com/mrwinch/Extplorer_Nas4Free/master/.htusers.php"
 Confirm(){
   read -r -p "   Continue? [Y/n] " response
   case "$response" in
@@ -27,6 +29,8 @@ echo -e "Downloading Extplorer..."
 fetch -o "Extplorer.zip" $Download_File
 tar xf "Extplorer.zip" -C $Install_Dir
 echo -e "Extplorer downloaded and extracted..."
+echo -e "Removing Extplorer package..."
+rm Extplorer.zip
 echo -e "Now installing required packages..."
 echo -e "Installing php56 (1/10)..."
 pkg install -y php56
@@ -48,3 +52,8 @@ echo -e "Installing php56-session (9/10)..."
 pkg install -y php56-session
 echo -e "Installing php56-zlib (10/10)..."
 pkg install -y php56-zlib
+echo -e "Updating Web GUI..."
+fetch -o "usr/local/www/Extplorer.php" $Extplorer_Add
+chown www:www $Extplorer_Add
+rm "usr/local/www/Extplorer/config/.htusers.php"
+fetch -o "usr/local/www/Extplorer/config/.htusers.php" $Extplorer_Cfg
