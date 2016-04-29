@@ -1,5 +1,4 @@
 #!/bin/sh
-#sed -i "s/${search}/${replace}/g" metamorphosis.txt
 #************* Script's parameters *******************************************
 Download_File="https://extplorer.net/attachments/download/68/eXtplorer_2.1.9.zip"
 Extplorer_Version="2.1.9"
@@ -11,17 +10,19 @@ Extplorer_Cfg="https://raw.githubusercontent.com/mrwinch/Extplorer_Nas4Free/mast
 FBegin_Target="\$menu['advanced']['menuitem'][] = array(\"desc\" => gettext(\"File Manager\"), \"link\" => \"/quixplorer/system_filemanager.php\", \"visible\" => TRUE);"
 FBegin_Dest="\$menu['advanced']['menuitem'][] = array(\"desc\" => gettext(\"Extplorer\"), \"link\" => \"/Extplorer.php\", \"visible\" => TRUE);/\n\$menu['advanced']['menuitem'][] = array(\"desc\" => gettext(\"File Manager\"), \"link\" => \"/quixplorer/system_filemanager.php\", \"visible\" => TRUE);"
 FBegin_File="/usr/local/www/fbegin.inc"
+Rt='\033[m'
+Br='\033[1m'
 #************* Script's routines *********************************************
 Confirm(){
-  read -r -p "   Continue? [Y/n] " response
+  read -r -p "   Continue? [Y/n] ${Br}" response
   case "$response" in
       [yY][eE][sS]|[yY]) 
-                echo -e " Great! Moving on.."
+                echo -e " ${Rt}Great! Moving on.."
                  ;;
       *)
                 # Otherwise exit...
                 echo " "
-                echo -e "Stopping script.."
+                echo -e "${Rt}Stopping script.."
                 echo " "
                 exit
                 ;;
@@ -29,7 +30,8 @@ Confirm(){
 }
 #************* Let's start...
 echo -e "***********************"
-echo -e "This script will install Extplorer ver. $Extplorer_Version"
+echo -e "   This script will install Extplorer ver. ${Br}$Extplorer_Version${Rt}"
+echo -e "***********************"
 Confirm
 echo -e "Creating installation directory..."
 mkdir $Install_Dir
@@ -66,7 +68,7 @@ fetch -o $Extplorer_Dest $Extplorer_Add
 chown www:www $Extplorer_Dest
 rm $Extplorer_Cfg_Dest
 fetch -o $Extplorer_Cfg_Dest $Extplorer_Cfg
-sed "s/$FBegin_Target/$FBegin_Dest/g" $FBegin_File > "Mod.inc"
+sed "s/${FBegin_Target}/${FBegin_Dest}/g" $FBegin_File > "Mod.inc"
 rm $FBegin_File
 cp "Mod.inc" $FBegin_File
 echo -e "Installation complete: enjoy Extplorer $Extplorer_Version"
