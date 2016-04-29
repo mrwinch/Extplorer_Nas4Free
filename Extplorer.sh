@@ -2,7 +2,7 @@
 #sed -i "s/${search}/${replace}/g" metamorphosis.txt
 Download_File="https://extplorer.net/attachments/download/68/eXtplorer_2.1.9.zip"
 Extplorer_Version="2.1.9"
-Install_Dir="/usr/var/local/www/Extplorer"
+Install_Dir="/usr/local/www/Extplorer"
 Confirm(){
   read -r -p "   Continue? [Y/n] " response
   case "$response" in
