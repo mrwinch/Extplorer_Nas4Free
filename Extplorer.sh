@@ -1,5 +1,6 @@
 #!/bin/sh
 #sed -i "s/${search}/${replace}/g" metamorphosis.txt
+#************* Script's parameters *******************************************
 Download_File="https://extplorer.net/attachments/download/68/eXtplorer_2.1.9.zip"
 Extplorer_Version="2.1.9"
 Install_Dir="/usr/local/www/Extplorer"
@@ -7,6 +8,10 @@ Extplorer_Add="https://raw.githubusercontent.com/mrwinch/Extplorer_Nas4Free/mast
 Extplorer_Dest="/usr/local/www/Extplorer.php"
 Extplorer_Cfg_Dest="/usr/local/www/Extplorer/config/.htusers.php"
 Extplorer_Cfg="https://raw.githubusercontent.com/mrwinch/Extplorer_Nas4Free/master/.htusers.php"
+FBegin_Target="\$menu['advanced']['menuitem'][] = array(\"desc\" => gettext(\"File Manager\"), \"link\" => \"/quixplorer/system_filemanager.php\", \"visible\" => TRUE);"
+FBegin_Dest="\$menu['advanced']['menuitem'][] = array(\"desc\" => gettext(\"Extplorer\"), \"link\" => \"/Extplorer.php\", \"visible\" => TRUE);/\n\$menu['advanced']['menuitem'][] = array(\"desc\" => gettext(\"File Manager\"), \"link\" => \"/quixplorer/system_filemanager.php\", \"visible\" => TRUE);"
+FBegin_File="/usr/local/www/fbegin.inc"
+#************* Script's routines *********************************************
 Confirm(){
   read -r -p "   Continue? [Y/n] " response
   case "$response" in
@@ -22,6 +27,8 @@ Confirm(){
                 ;;
   esac  
 }
+#************* Let's start...
+echo -e "***********************"
 echo -e "This script will install Extplorer ver. $Extplorer_Version"
 Confirm
 echo -e "Creating installation directory..."
@@ -59,3 +66,7 @@ fetch -o $Extplorer_Dest $Extplorer_Add
 chown www:www $Extplorer_Dest
 rm $Extplorer_Cfg_Dest
 fetch -o $Extplorer_Cfg_Dest $Extplorer_Cfg
+sed "s/$FBegin_Target/$FBegin_Dest/g" $FBegin_File > "Mod.inc"
+rm $FBegin_File
+cp "Mod.inc" $FBegin_File
+echo -e "Installation complete: enjoy Extplorer $Extplorer_Version"
