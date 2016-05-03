@@ -1,7 +1,7 @@
 #!/usr/local/bin/php -q
 <?php
-$Src = fopen("/usr/local/www/fbegin.new", "r") or die("Unable to open file!");
-$Dest = fopen("Res.inc","w");
+$Src = fopen("/usr/local/www/fbegin.old", "r") or die("Unable to open file!");
+$Dest = fopen("/usr/local/www/fbegin.inc","w");
 if($Src){
 	if($Dest){
 		while (($line = fgets($Src)) !== false) {
