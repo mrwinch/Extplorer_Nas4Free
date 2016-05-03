@@ -70,5 +70,6 @@ chown www:www $Extplorer_Dest
 echo -e "Patching Web GUI bar..."
 fetch -o "GUI_Patch.php" $GUI_Patch
 chmod a+x GUI_Patch.php
+cp "/usr/local/www/fbegin.inc" "/usr/local/www/fbegin.old"
 ./Gui_Patch.php
 echo -e "Installation complete: enjoy Extplorer $Extplorer_Version"
