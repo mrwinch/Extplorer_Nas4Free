@@ -68,8 +68,8 @@ echo -e "Updating Web GUI..."
 fetch -o $Extplorer_Dest $Extplorer_Add
 chown www:www $Extplorer_Dest
 echo -e "Patching Web GUI bar..."
-fetch -o "GUI_Patch.php" $GUI_Patch
-chmod a+x GUI_Patch.php
+fetch -o "Gui_Patch.php" $GUI_Patch
+chmod a+x Gui_Patch.php
 cp "/usr/local/www/fbegin.inc" "/usr/local/www/fbegin.old"
 rm "/usr/local/www/fbegin.inc"
 echo "./Gui_Patch.php"
