@@ -71,6 +71,5 @@ echo -e "Patching Web GUI bar..."
 fetch -o "Gui_Patch.php" $GUI_Patch
 chmod a+x Gui_Patch.php
 cp "/usr/local/www/fbegin.inc" "/usr/local/www/fbegin.old"
-rm "/usr/local/www/fbegin.inc"
 echo "./Gui_Patch.php"
 echo -e "Installation complete: enjoy Extplorer $Extplorer_Version"
