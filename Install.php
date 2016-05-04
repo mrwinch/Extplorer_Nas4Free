@@ -1,4 +1,4 @@
-#!/usr/local/bin/php -q
+#!/usr/local/bin/php-cgi -q
 <?php
 //Parameters...
 $Pkg_Need = array("php56","php56-extensions","php56-xmlrpc","php56-gettext",
