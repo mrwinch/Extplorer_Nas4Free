@@ -8,5 +8,9 @@ To install Extplorer you have to execute script Install.php with admin privilege
     chmod a+x Install.php
     ./Install.php
 ```
+This extension require some packages to download so installation may require few minutes. If everything is correct you will find a new voice "Extplorer" in "Advanced" tab of WebGUI. Default password for admin is 'nas4free': change as soon as possible.
+
+##Screenshot
+![User and pass request](https://github.com/mrwinch/Extplorer_Nas4Free/raw/PHP_Instal/Screenshot/Immagine1.png)
 ***
 ![Image sample](https://github.com/mrwinch/Extplorer_Nas4Free/raw/PHP_Instal/Screenshot/Avatar_Small.JPG) Fluffy rulez!
