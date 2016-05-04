@@ -25,11 +25,23 @@ exec($cmd);
 echo("Removing Extplorer package...\n");
 if(unlink("Extplorer.zip")==false)
   exit("Error removing Extplorer package...\n");
-echo("Installing required package...\n");
-$Cnt = 1;
-foreach($Pkg_Need as $Pkg){
-  echo("Installing $HL $Pkg (".$Cnt."/".count($Pkg_Need).")$Nr...\n");
-  $Cmd = "pkg install -y $Pkg";
-  exec($Cmd);
+Pkg_Installer();
+CFG_Updater();
+//Function
+function Pkg_Installer(){
+  $Cnt = 1;
+  echo("Installing required package...\n");  
+    foreach($Pkg_Need as $Pkg){
+      echo("Installing $HL $Pkg (".$Cnt."/".count($Pkg_Need).")$Nr...\n");
+      $Cmd = "pkg install -y $Pkg";
+      exec($Cmd);
+      $Cnt = $Cnt + 1;
+    }
+}
+function CFG_Updater(){
+  $Cfg="/usr/local/www/Extplorer/config/.htusers.php";
+  $Cfg_Dest="/usr/local/www/Extplorer/config/.htusers_old.php";
+  if(rename($Cfg,$Cfg_Dest) == false)
+    exit("Error moving original configuration...\n");
 }
 ?>
