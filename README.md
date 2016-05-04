@@ -15,6 +15,11 @@ This extension require some packages to download so installation may require few
 ![User and pass request](https://github.com/mrwinch/Extplorer_Nas4Free/raw/PHP_Instal/Screenshot/Immagine1.png)
 ####Updated webGUI
 ![WebGUI](https://github.com/mrwinch/Extplorer_Nas4Free/raw/PHP_Instal/Screenshot/Immagine3.png)
+####Extplorer window inside Nas4Free
+![WebGUI](https://github.com/mrwinch/Extplorer_Nas4Free/raw/PHP_Instal/Screenshot/Immagine2.png)
 
+##Forum discussion
+For information, suggestion or anything else, please refer to this discussion in Nas4Free forum
+######[Nas4Free discussion](http://forums.nas4free.org/viewforum.php?f=71)
 ***
 ![Image sample](https://github.com/mrwinch/Extplorer_Nas4Free/raw/PHP_Instal/Screenshot/Avatar_Small.JPG) Fluffy rulez!
