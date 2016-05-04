@@ -27,6 +27,9 @@ if(unlink("Extplorer.zip")==false)
   exit("Error removing Extplorer package...\n");
 Pkg_Installer();
 CFG_Updater();
+GUI_Patch();
+echo("Installation successfully completed!\n");
+echo("Remember: Extplore admin password is 'nas4free'\n");
 //Function
 function Pkg_Installer(){
   $Cnt = 1;
@@ -41,6 +44,7 @@ function Pkg_Installer(){
 function CFG_Updater(){
   $Cfg="/usr/local/www/Extplorer/config/.htusers.php";
   $Cfg_Dest="/usr/local/www/Extplorer/config/.htusers_old.php";
+  echo("Changing Extplorer configuration...\n");
   if(rename($Cfg,$Cfg_Dest) == false)
     exit("Error moving original configuration...\n");
   $File = fopen($Cfg,"w");
@@ -57,5 +61,34 @@ function CFG_Updater(){
 	?>";
   fwrite($File,$Data);
   fclose($File);
+}
+function GUI_Patch(){
+	echo("Changing Nas4Free GUI...\n");
+	rename("/usr/local/www/fbegin.inc","/usr/local/www/fbegin.old");
+	$Src = fopen("/usr/local/www/fbegin.old", "r") 
+	if($Src == false){
+		rename("/usr/local/www/fbegin.old","/usr/local/www/fbegin.inc");
+		exit("Error reading GUI data\n");
+	}
+	$Dest = fopen("/usr/local/www/fbegin.inc","w");
+	if($Dest == false){
+		rename("/usr/local/www/fbegin.old","/usr/local/www/fbegin.inc");
+		exit("Error creating GUI data\n");
+	}
+	if($Src){
+		if($Dest){
+			while (($line = fgets($Src)) !== false) {
+				if(strrpos($line,"system_filemanager")!=false){
+					$Copy = $line;
+					$Copy = str_replace("File Manager","Extplorer",$Copy);
+					$Copy = str_replace("/quixplorer/system_filemanager.php","/Extplorer.php",$Copy);				
+					fwrite($Dest,$Copy);				
+				}
+				fwrite($Dest,$line);			
+		    }
+		}
+	}
+	fclose($Src);
+	fclose($Dest);
 }
 ?>
