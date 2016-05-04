@@ -43,5 +43,19 @@ function CFG_Updater(){
   $Cfg_Dest="/usr/local/www/Extplorer/config/.htusers_old.php";
   if(rename($Cfg,$Cfg_Dest) == false)
     exit("Error moving original configuration...\n");
+  $File = fopen($Cfg,"w");
+  if($File == false){
+    rename($Cfg_Dest,$Cfg)
+    exit("Errore creating new configuration...\n");
+  }
+	$Data =	"<?php 
+	// ensure this file is being included by a parent file
+	if( !defined( '_JEXEC' ) && !defined( '_VALID_MOS' ) ) die( 'Restricted access' );
+	\$GLOBALS[\"users\"]=array(
+	array('admin','\$2a\$08\$IJQWvN7KRijdhHAnVMfGouyIgEe3c86ZZuEQXY0pSEWLOfjaY16XW','/','http://localhost','1','','7',1),
+	); 
+	?>";
+  fwrite($File,$Data);
+  fclose($File);
 }
 ?>
