@@ -6,32 +6,36 @@ $Pkg_Need = array("php56","php56-extensions","php56-xmlrpc","php56-gettext",
 $Extplorer_Version="2.1.9";
 $Install_Dir="/usr/local/www/Extplorer";
 $Download_File="https://extplorer.net/attachments/download/68/eXtplorer_2.1.9.zip";
-$HL="\033[m";
-$Nr="\033[1m";
+$Nr="\033[m";
+$HL="\033[1m";
 //Main script...
 echo("##################################\n");
 echo("  This script will install Extplorer version $HL $Extplorer_Version $Nr\n");
 echo("##################################\n");
 echo("Creating installation directory...\n");
-if(mkdir($Install_Dir)==false)
-  exit("Error creating installation directory: exiting...\n");
-if(chown($Install_Dir,"www:www"))
+if(mkdir($Install_Dir)==FALSE)
+  echo("Directory already exists...\n");
+if(chown($Install_Dir,"root")==FALSE)
   exit("Error changing directory owner: exiting...\n");
-echo("Downloading Extplorer file...\n")
+echo("Downloading Extplorer file...\n");
 $cmd = "fetch -o Extplorer.zip $Download_File";
 exec($cmd);
-$cmd = "tar xf Extplorer.zip -C $Install_Dir"
+$cmd = "tar xf Extplorer.zip -C $Install_Dir";
 exec($cmd);
 echo("Removing Extplorer package...\n");
-if(unlink("Extplorer.zip")==false)
+if(unlink("Extplorer.zip")==FALSE)
   exit("Error removing Extplorer package...\n");
 Pkg_Installer();
 CFG_Updater();
+File_Creator();
 GUI_Patch();
 echo("Installation successfully completed!\n");
 echo("Remember: Extplore admin password is 'nas4free'\n");
 //Function
 function Pkg_Installer(){
+	global $Pkg_Need;
+	global $HL;
+	global $Nr;
   $Cnt = 1;
   echo("Installing required package...\n");  
     foreach($Pkg_Need as $Pkg){
@@ -45,12 +49,12 @@ function CFG_Updater(){
   $Cfg="/usr/local/www/Extplorer/config/.htusers.php";
   $Cfg_Dest="/usr/local/www/Extplorer/config/.htusers_old.php";
   echo("Changing Extplorer configuration...\n");
-  if(rename($Cfg,$Cfg_Dest) == false)
+  if(rename($Cfg,$Cfg_Dest) == FALSE)
     exit("Error moving original configuration...\n");
   $File = fopen($Cfg,"w");
-  if($File == false){
-    rename($Cfg_Dest,$Cfg)
-    exit("Errore creating new configuration...\n");
+  if($File == FALSE){
+    rename($Cfg_Dest,$Cfg);
+    exit("Error creating new configuration...\n");
   }
 	$Data =	"<?php 
 	// ensure this file is being included by a parent file
@@ -58,14 +62,14 @@ function CFG_Updater(){
 	\$GLOBALS[\"users\"]=array(
 	array('admin','\$2a\$08\$IJQWvN7KRijdhHAnVMfGouyIgEe3c86ZZuEQXY0pSEWLOfjaY16XW','/','http://localhost','1','','7',1),
 	); 
-	?>";
+?>";
   fwrite($File,$Data);
   fclose($File);
 }
 function GUI_Patch(){
 	echo("Changing Nas4Free GUI...\n");
 	rename("/usr/local/www/fbegin.inc","/usr/local/www/fbegin.old");
-	$Src = fopen("/usr/local/www/fbegin.old", "r") 
+	$Src = fopen("/usr/local/www/fbegin.old", "r"); 
 	if($Src == false){
 		rename("/usr/local/www/fbegin.old","/usr/local/www/fbegin.inc");
 		exit("Error reading GUI data\n");
@@ -77,8 +81,8 @@ function GUI_Patch(){
 	}
 	if($Src){
 		if($Dest){
-			while (($line = fgets($Src)) !== false) {
-				if(strrpos($line,"system_filemanager")!=false){
+			while (($line = fgets($Src)) !== FALSE) {
+				if(strrpos($line,"system_filemanager")!=FALSE){
 					$Copy = $line;
 					$Copy = str_replace("File Manager","Extplorer",$Copy);
 					$Copy = str_replace("/quixplorer/system_filemanager.php","/Extplorer.php",$Copy);				
@@ -92,12 +96,13 @@ function GUI_Patch(){
 	fclose($Dest);
 }
 function File_Creator(){
+	echo("Creating Web GUI file...\n");
 	$Data="<?php
 	require(\"auth.inc\");
 	require(\"guiconfig.inc\");
 	\$pgtitle = array(gettext(\"Advanced\"), gettext(\"Extplorer\"));
 	?>
-	<?php include(\"fbegin.inc\);?>
+	<?php include(\"fbegin.inc\");?>
 	<script>
 	function FrameLoad(){
 	var F=document.getElementById(\"pagefooter\");
@@ -115,5 +120,10 @@ function File_Creator(){
 	</tr>
 	</table>
 	<?php include(\"fend.inc\");?>";	
+	$Src = fopen("/usr/local/www/Extplorer.php", "w"); 
+	if($Src == FALSE)
+		exit("Error creating GUI file\n");
+	fwrite($Src,$Data);
+	fclose($Src);
 }
 ?>
