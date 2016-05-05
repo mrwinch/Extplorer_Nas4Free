@@ -70,23 +70,28 @@ function GUI_Patch(){
 	echo("Changing Nas4Free GUI...\n");
 	rename("/usr/local/www/fbegin.inc","/usr/local/www/fbegin.old");
 	$Src = fopen("/usr/local/www/fbegin.old", "r"); 
-	if($Src == false){
+	if($Src == FALSE){
 		rename("/usr/local/www/fbegin.old","/usr/local/www/fbegin.inc");
 		exit("Error reading GUI data\n");
 	}
 	$Dest = fopen("/usr/local/www/fbegin.inc","w");
-	if($Dest == false){
+	if($Dest == FALSE){
 		rename("/usr/local/www/fbegin.old","/usr/local/www/fbegin.inc");
 		exit("Error creating GUI data\n");
 	}
 	if($Src){
 		if($Dest){
+			$Has_Patch = FALSE;
 			while (($line = fgets($Src)) !== FALSE) {
+				if(strrpos($line,"Extplorer")!=FALSE){
+					$Has_Patch = TRUE;
+				}
 				if(strrpos($line,"system_filemanager")!=FALSE){
 					$Copy = $line;
 					$Copy = str_replace("File Manager","Extplorer",$Copy);
 					$Copy = str_replace("/quixplorer/system_filemanager.php","/Extplorer.php",$Copy);				
-					fwrite($Dest,$Copy);				
+					if($Has_Patch == FALSE)
+						fwrite($Dest,$Copy);				
 				}
 				fwrite($Dest,$line);			
 		    }
