@@ -29,6 +29,7 @@ Pkg_Installer();
 CFG_Updater();
 File_Creator();
 GUI_Patch();
+GUI_Patch2();
 echo("Installation successfully completed!\n");
 echo("Remember: Extplore admin password is 'nas4free'\n");
 //Function
@@ -94,6 +95,35 @@ function GUI_Patch(){
 						fwrite($Dest,$Copy);				
 				}
 				fwrite($Dest,$line);			
+		    }
+		}
+	}
+	fclose($Src);
+	fclose($Dest);
+}
+function GUI_Patch2(){
+	rename("/etc/inc/util.inc","/etc/inc/util.old");
+	$Src = fopen("/etc/inc/util.old", "r"); 
+	if($Src == FALSE){
+		rename("/etc/inc/util.old","/etc/inc/util.inc");
+		exit("Error reading GUI data (2)\n");
+	}
+	$Dest = fopen("/etc/inc/util.inc","w");
+	if($Dest == FALSE){
+		rename("/etc/inc/util.old","/etc/inc/util.inc");
+		exit("Error creating GUI data (2)\n");
+	}
+	if($Src){
+		if($Dest){
+			$Has_Patch = FALSE;
+			while (($line = fgets($Src)) !== FALSE) {
+				if(strrpos($line,"?? ''")!=FALSE){
+					$Copy = $line;
+					$Copy = str_replace("?? ''","",$Copy);
+					fwrite($Dest,$Copy);				
+				}
+				else
+					fwrite($Dest,$line);			
 		    }
 		}
 	}
