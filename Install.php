@@ -1,8 +1,8 @@
 #!/usr/local/bin/php-cgi -q
 <?php
 //Parameters...
-$Pkg_Need = array("php56","php56-extensions","php56-xmlrpc","php56-gettext",
-                  "php56-mcrypt","php56-mbstring","php56-zip","php56-gd","php56-session","php56-zlib");
+$Pkg_Need = array("php70","php70-extensions","php70-xmlrpc","php70-gettext",
+                  "php70-mcrypt","php70-mbstring","php70-zip","php70-gd","php70-session","php70-zlib");
 $Extplorer_Version="2.1.9";
 $Install_Dir="/usr/local/www/Extplorer";
 $Download_File="https://extplorer.net/attachments/download/68/eXtplorer_2.1.9.zip";
